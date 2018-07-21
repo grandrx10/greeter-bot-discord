@@ -13,6 +13,7 @@ var bot = new Discord.Client({
 
 var attacker;
 var defender;
+var turn;
 
 function magic8(){
    var magicMessages = ["Yes","No","Maybe","In your dreams.","Yeah right.","Maybe when Minehero can fly.","Go ask the real 8Ball.","Why would you ask me that. That sounds like a Phil Question.","YES! OH MY GOD WHY ARE YOU THIS DUMB!?","No, god no. Never in the history of the Earth, not even when Incomp can get decent one taps, will that be true.","I know you know the answer already.","That's funny to you isn't it?","I don't want to answer anymore of your gay ass questions.","Sure, if you think about it that way.","Yes, sadly, it is true. But I'd rather believe that it is not.","Well, yeah, if you wanna get raped.","Maybe when Kurx sounds like a man.",
@@ -25,12 +26,25 @@ function magic8(){
    return magicMessages[randNum];
 }
 
+function randomTeam(){
+   var  teamSelecter = ["Counter-Terrorists","Terrorists"];
+   var randNum = Math.floor(Math.random() * Math.floor(teamSelecter.length));
+   return teamSelecter[randNum];
+ }
+
+function randomMap(){
+   var mapSelecter = ["Dust 2","Aztec","Seaside","Cache","Office","Inferno","Metro","Mirage","Cobblestone","Agency"];
+   var randNum = Math.floor(Math.random() * Math.floor(mapSelecter.length));
+   return mapSelecter[randNum];
+ }
+
 function joke(){
    var punchlines = ["What do you call a man with no arms and no legs lying in a pool? Bob","What do you call a man with no arms and no legs lying on your front door? Matt.","What do you call a man with no arms and no legs wrapped around your fence? Barb.","My life","Your social life.","A drunk and a soldier are talking. The soldier says: You know, it sucks out here. It's hot in the morning, it's cold as hell in the night, and you never know when the next attack is going to come. The drunk says: Same thing here. That's why I got a divorce.","Did you know that Incomp could one tap?","A clown opened the door for me. I thought it was a nice jester","Why don't you give Elsa a balloon? Cuz she'll let it go.","2 men are stranded in the desert. One man says: I got good news and I got bad news. Which one do you want? \n The other man says: the bad news \n we have nothing but sand to eat out here. \n The good news? \n LOOK AT HOW MUCH THERE IS TO EAT!",
    "The wedding was great! Even the cake was in tiers",
    "What did the cat say when the mouse got away? You gotta be kitten me.",
    "Communism",
    "Capitalism",
+   "Why did the banana go to the doctor? It wasn't peeling well.",
    "Kim Jon Un opens up a new work out gym. Is the only fat man in the country.",
    "EA-Player First company",
    "What do you call a vehicle that likes to drink lots of water, then sneeze? A train; Chuga Chuga CHOO CHOO!"]
@@ -46,7 +60,7 @@ function love(){
 }
 
 function cbrogun(){
-  var randomgun = ["P2000/USP-S/Glock 18","Dual Berretas","P250","Five-Seven/Tec-9","Desert Eagle","Nova","XM1014","Mag-7/Sawed-Off","M249","Negev","Mac-10/MP9","MP7","UMP-45","P90","PP-Bizon",
+  var randomgun = ["P2000/USP-S/Glock 18","Dual Berretas","P250","Five-Seven/Tec-9/CZ-75","Desert Eagle","Nova","XM1014","Mag-7/Sawed-Off","M249","Negev","Mac-10/MP9","MP7","UMP-45","P90","PP-Bizon",
   "Famas/Galil","AK-47/M4A4/M4A1-S","Scout","SG553/AUG","AWP","Scar-20/G3","Knife","Smoke Grenade","Flashbang","HE Grenade"]
   var randNum = Math.floor(Math.random() * Math.floor(randomgun.length));
   return "You have been given the weapon: " + randomgun[randNum];
@@ -62,31 +76,32 @@ database = JSON.parse(database1);
 function createNewChar(username){
   const fs = require('fs');
   //"TheLastHero":{"Stats":{"HP":20,"MP":10},"Weapons":"None"}
-  console.log(database1)
-  console.log(database1.substr(0,database1.length-3))
-  var replacement = database1.substr(0,database1.length-3) + ",\"" + username + "\":{\"Stats\":{\"HP\":20,\"MP\":10},\"Weapons\":\"None\",\"Armour\":\"None\",\"MagicAbilities\":\"None\"}}"
+  var replacement = database1.substr(0,database1.length-3) + ",\"" + username + "\":{\"Stats\":{\"HP\":100,\"MP\":100},\"Weapons\":\"None\",\"Armour\":\"None\",\"MagicAbilities\":\"None\"}}"
   fs.writeFile('characters.txt', replacement, function (err) {
     if (err) throw err;
   });
+  database = JSON.parse(replacement);
   return "Your character has been created!"
 }
 
-const fs = require('fs');
-var txtFile = "weapons.txt";
-var weaponsData1 = fs.readFileSync(txtFile,'utf8');
+var weaponsData1 = fs.readFileSync("weapons.txt",'utf8');
 weaponsData = JSON.parse(weaponsData1);
+
 //DATABASE CODE ENDS HERE
 
 function addWeapon(username) {
-  var weapons = ["T1 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
-  "T1 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
-  "T1 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
-  "T1 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
-  "T1 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T2 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T7%20Mithril%20Dagger.png","T2 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T0%20Energy%20Staff.png","T2 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T8%20Ravenheart%20Sword.png",
-  "T2 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T8%20Golden%20Bow.png","T2 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T7%20Mithril%20Dagger.png","T2 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T0%20Energy%20Staff.png","T2 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T8%20Ravenheart%20Sword.png",
-  "T2 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T8%20Golden%20Bow.png","T3 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T12%20Dagger%20of%20Foul%20Malevolence.png","T3 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T12%20Staff%20of%20the%20Cosmic%20Whole.png",
-  "T3 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T11%20Skysplitter%20Sword.png","T3 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T12%20Bow%20of%20Covert%20Havens.png",
-  "UT Excalibur \n https://i.imgur.com/Klyve1D.png"];
+  var weapons = ["T1 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
+  "T1 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
+  "T1 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
+  "T1 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T1 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png","T1 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png","T1 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png",
+  "T1 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png","T2 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T7%20Mithril%20Dagger.png","T2 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T0%20Energy%20Staff.png","T2 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T8%20Ravenheart%20Sword.png",
+  "T2 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T8%20Golden%20Bow.png","T2 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T7%20Mithril%20Dagger.png","T2 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T0%20Energy%20Staff.png","T2 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T8%20Ravenheart%20Sword.png",
+  "T2 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T8%20Golden%20Bow.png","T3 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T12%20Dagger%20of%20Foul%20Malevolence.png","T3 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T12%20Staff%20of%20the%20Cosmic%20Whole.png",
+  "T3 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T11%20Skysplitter%20Sword.png","T3 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T12%20Bow%20of%20Covert%20Havens.png",
+  "UT Excalibur\n https://i.imgur.com/Klyve1D.png",
+  "UT Voidshot Crossbow\n https://static.drips.pw/rotmg/wiki/Untiered/Thousand%20Shot.png",
+  "UT Staff of the Sun God\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T11%20Staff%20of%20Yuletide%20Carols.png",
+  "UT Dirk of the Ancients\n https://static.drips.pw/rotmg/wiki/Untiered/Dirk%20of%20Cronus.png"];
   //var weapons = ["a test https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/600px-Cat03.jpg"];
   var randNum = Math.floor(Math.random() * Math.floor(weapons.length));
   database[username]["Weapons"] = weapons[randNum];
@@ -97,13 +112,13 @@ function addWeapon(username) {
 }
 
 function addMagic(username) {
-  var magicAbilities = ["T1 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
-  "T1 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
-  "T1 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
-  "T2 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T5%20Tome%20of%20Divine%20Favor.png","T2 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T5%20Magic%20Nova%20Spell.png","T2 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T5%20Banishment%20Orb.png",
-  "T2 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T5%20Tome%20of%20Divine%20Favor.png","T2 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T5%20Magic%20Nova%20Spell.png","T2 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T5%20Banishment%20Orb.png",
-  "T3 Heal Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T6%20Tome%20of%20Holy%20Guidance.png","T3 Explosive Spell \n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T6%20Elemental%20Detonation%20Spell.png","T3 Weaken Spell \n https://static.drips.pw/rotmg/wiki/Untiered/Orb%20of%20Conflict.png",
-  "UT Seal of the Fallen Champion \n https://static.drips.pw/rotmg/wiki/Abilities/Seals/T6%20Seal%20of%20the%20Blessed%20Champion.png"]
+  var magicAbilities = ["T1 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Orb\n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
+  "T1 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Orb\n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
+  "T1 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T0%20Healing%20Tome.png","T1 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T1%20Flame%20Burst%20Spell.png","T1 Orb\n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T0%20Stasis%20Orb.png",
+  "T2 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T5%20Tome%20of%20Divine%20Favor.png","T2 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T5%20Magic%20Nova%20Spell.png","T2 Orb\n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T5%20Banishment%20Orb.png",
+  "T2 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T5%20Tome%20of%20Divine%20Favor.png","T2 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T5%20Magic%20Nova%20Spell.png","T2 Orb\n https://static.drips.pw/rotmg/wiki/Abilities/Orbs/T5%20Banishment%20Orb.png",
+  "T3 Heal Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Tomes/T6%20Tome%20of%20Holy%20Guidance.png","T3 Explosive Spell\n https://static.drips.pw/rotmg/wiki/Abilities/Spells/T6%20Elemental%20Detonation%20Spell.png","T3 Orb\n https://static.drips.pw/rotmg/wiki/Untiered/Orb%20of%20Conflict.png",
+  "UT Seal of the Fallen Champion\n https://static.drips.pw/rotmg/wiki/Abilities/Seals/T6%20Seal%20of%20the%20Blessed%20Champion.png"]
   var randNum = Math.floor(Math.random() * Math.floor(magicAbilities.length));
   database[username]["MagicAbilities"] = magicAbilities[randNum];
   fs.writeFile('characters.txt',JSON.stringify(database), function(err){
@@ -115,13 +130,13 @@ function addMagic(username) {
 
 
 function addArmour(username) {
-  var armours = ["T1 Leather Armour \n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
-  "T1 Leather Armour \n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
-  "T1 Leather Armour \n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
-  "T2 Leather Armour \n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T7%20Studded%20Leather%20Armor.png","T2 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T6%20Mithril%20Chainmail.png","T2 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T10%20Robe%20of%20the%20Moon%20Wizard.png",
-  "T2 Leather Armour \n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T7%20Studded%20Leather%20Armor.png","T2 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T6%20Mithril%20Chainmail.png","T2 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T10%20Robe%20of%20the%20Moon%20Wizard.png",
-  "T3 Leather Armour \n https://i.imgur.com/Wvu0LU7.png","T3 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T12%20Acropolis%20Armor.png","T3 Robe \n https://static.drips.pw/rotmg/wiki/Armor/Robes/T12%20Robe%20of%20the%20Grand%20Sorcerer.png",
-  "UT Obsidian Armour \n https://static.drips.pw/rotmg/wiki/Untiered/Almandine%20Armor%20of%20Anger.png"];
+  var armours = ["T1 Leather Armour\n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
+  "T1 Leather Armour\n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
+  "T1 Leather Armour\n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T4%20Bearskin%20Armor.png","T1 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png","T1 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T4%20Robe%20of%20the%20Conjurer.png",
+  "T2 Leather Armour\n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T7%20Studded%20Leather%20Armor.png","T2 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T6%20Mithril%20Chainmail.png","T2 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T10%20Robe%20of%20the%20Moon%20Wizard.png",
+  "T2 Leather Armour\n https://static.drips.pw/rotmg/wiki/Armor/Leather%20Armor/T7%20Studded%20Leather%20Armor.png","T2 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T6%20Mithril%20Chainmail.png","T2 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T10%20Robe%20of%20the%20Moon%20Wizard.png",
+  "T3 Leather Armour\n https://i.imgur.com/Wvu0LU7.png","T3 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T12%20Acropolis%20Armor.png","T3 Robe\n https://static.drips.pw/rotmg/wiki/Armor/Robes/T12%20Robe%20of%20the%20Grand%20Sorcerer.png",
+  "UT Obsidian Armour\n https://static.drips.pw/rotmg/wiki/Untiered/Almandine%20Armor%20of%20Anger.png"];
   var randNum = Math.floor(Math.random() * Math.floor(armours.length));
   database[username]["Armour"] = armours[randNum];
   fs.writeFile('characters.txt',JSON.stringify(database), function(err){
@@ -140,10 +155,136 @@ function challenge(challenger,challenged,channelID){
 }
 
 function duel(challenger,challenged,channelID){
+  //apply armour stats to challenger
+  //figure out what armour challenger is wearing
+  var challengerArmour = database[challenger]["Armour"].split("\n")[0]
+  var defensePower = weaponsData["Armour"][challengerArmour]["Heal"];
+  database[challenger]["Stats"]["HP"] += parseInt(defensePower);
+  //set turn
+  fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+    if (err) throw err;
+  turn = challenger;
+  //////////////////////
+  });
+  //do the same for challenged
+  var challengedArmour = database[challenged]["Armour"].split("\n")[0];
+  //add to the data by how much hp is increasing
+  var defensePower2 = weaponsData["Armour"][challengedArmour]["Heal"];
+  database[challenged]["Stats"]["HP"] += parseInt(defensePower2);
+  //set turn
+  fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+    if (err) throw err;
+  turn = challenger;
+  });
   bot.sendMessage({
       to: channelID,
       message: "The duel will now commence. " + challenger + ", what would you like to do? Choose between '!attack' and '!magic'."
   });
+}
+
+function attack(attacker,attacked,channelID){
+  //fetch the weapon of the person attacking
+  var attackerWeapon = database[attacker]["Weapons"].split("\n")[0];
+  //figure out how much its upper and lower damage are
+  var LowerDamage = weaponsData["Weapons"][attackerWeapon]["LowerDamage"]
+  var UpperDamage = weaponsData["Weapons"][attackerWeapon]["UpperDamage"]
+  Healing = weaponsData["Weapons"][attackerWeapon]["Heal"]
+  MagicUse = weaponsData["Weapons"][attackerWeapon]["MagicUse"]
+  //find a random number in between, similar to magic8() and so on
+  var DamageDealt = LowerDamage + Math.floor(Math.random() * Math.floor(UpperDamage));
+  //change the stats of the person being attacked
+  database[attacked]["Stats"]["HP"] -= DamageDealt;
+  database[attacker]["Stats"]["HP"] += Healing;
+  database[attacker]["Stats"]["MP"] -= MagicUse;
+  //write to characters.txt
+  fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+    if (err) throw err;
+  })
+  //checking dead or alive
+  if(checkDead(attacked)){
+    //send a message saying whatever you wanna says
+    //reset everything
+   database[attacked]["Stats"]["HP"] = 100
+   database[attacked]["Stats"]["MP"] = 100
+   database[attacker]["Stats"]["HP"] = 100
+   database[attacker]["Stats"]["MP"] = 100
+   bot.sendMessage({
+       to: channelID,
+       message: attacker + " has defeated " + attacked + " in a duel!"
+   })
+
+   turn = attacker
+
+   fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+      if (err) throw err;
+    })
+} else{
+  bot.sendMessage({
+      to: channelID,
+      message: attacker + " has attacked " + attacked + " and dealt " + DamageDealt + " DMG and healed " + Healing + " HP. " + attacked + " has " + database[attacked]["Stats"]["HP"] + " HP and " + database[attacked]["Stats"]["MP"] + " MP left.\n" + attacker + " has " +
+      database[attacker]["Stats"]["HP"] + " HP and "
+      + database[attacker]["Stats"]["MP"] + " MP." + "\n" + attacked + " has "
+      + database[attacked]["Stats"]["HP"] + " HP and " + database[attacker]["Stats"]["MP"] + " MP." + "\n" + "It is now " + attacked + "'s turn." + "What would you like to do? Choose between '!attack' and '!magic'."
+  });
+}
+  //set turn
+  turn = attacked;
+}
+
+function magic(attacker,attacked,channelID){
+  var attackerMagic = database[attacker]["MagicAbilities"].split("\n")[0];
+  var LowerDamage = weaponsData["MagicAbilities"][attackerMagic]["LowerDamage"]
+  var UpperDamage = weaponsData["MagicAbilities"][attackerMagic]["UpperDamage"]
+  var MagicUse = weaponsData["MagicAbilities"][attackerMagic]["MagicUse"]
+  var Healing = weaponsData["MagicAbilities"][attackerMagic]["Heal"]
+
+  if(checkMana(MagicUse,attacker)){
+    //write a message saying you can't do this and for them to !attack instead
+    bot.sendMessage({
+        to: channelID,
+        message: "You don't have enough mana do use that ability!"
+    })
+  } else {
+    DamageDealt = LowerDamage + Math.floor(Math.random() * Math.floor(UpperDamage));
+    database[attacked]["Stats"]["HP"] -= DamageDealt;
+    database[attacker]["Stats"]["HP"] += Healing;
+    database[attacker]["Stats"]["MP"] -= MagicUse
+    fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+      if (err) throw err;
+    })
+    if(checkDead(attacked)){
+      database[attacked]["Stats"]["HP"] = 100
+      database[attacked]["Stats"]["MP"] = 100
+      database[attacker]["Stats"]["HP"] = 100
+      database[attacker]["Stats"]["MP"] = 100
+      bot.sendMessage({
+         to: channelID,
+         message: attacker + " has defeated " + attacked + " in a duel!"
+      })
+      fs.writeFile('characters.txt',JSON.stringify(database), function(err){
+           if (err) throw err;
+      })
+    } //closes checkDead
+  }// closes else
+//closes function magic
+  bot.sendMessage({
+      to: channelID,
+      message: attacker + " has cast magic on " + attacked + " and dealt " + DamageDealt + " DMG and healed " + Healing + " HP. " + attacked + " has " + database[attacked]["Stats"]["HP"] + " HP and " + database[attacked]["Stats"]["MP"] + " left.\n" + attacker + " has " +
+      database[attacker]["Stats"]["HP"] + " HP and "
+      + database[attacker]["Stats"]["MP"] + " MP." + "\n" + attacked + " has " + database[attacked]["Stats"]["HP"] + " HP and " + database[attacker]["Stats"]["MP"] + " MP." + "\n" + "It is now " + attacked + "'s turn." + "What would you like to do? Choose between '!attack' and '!magic'."
+  });
+  //set turn
+  turn = attacked;
+}
+
+function checkMana(magic,person){
+  //check if mana is 0 or negative
+  return database[person]["Stats"]["MP"] - magic < 0;
+}
+
+function checkDead(person){
+  //check in characters.txt to see if HP of character is 0 or negative
+  return database[person]["Stats"]["HP"] <= 0;
 }
 
 bot.on('ready', function (evt) {
@@ -165,6 +306,17 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 bot.sendMessage({
                     to: channelID,
                     message: 'Pong!'
+                });
+            case 'team':
+                bot.sendMessage({
+                   to: channelID,
+                   message: randomTeam()
+                });
+                break;
+            case 'map':
+                bot.sendMessage({
+                    to: channelID,
+                    message: randomMap()
                 });
                 break;
             case 'hi':
@@ -224,31 +376,31 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'infoT1Dagger':
                 bot.sendMessage({
                     to: channelID,
-                    message: "T1 Dagger \n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png \n DMG: 10-20 \n SPD: 3 \n This dagger is very standard for thieves to carry, as it is very cheap."
+                    message: "T1 Dagger\n https://static.drips.pw/rotmg/wiki/Weapons/Daggers/T4%20Silver%20Dagger.png \n DMG: 10-20 \n SPD: 3 \n This dagger is very standard for thieves to carry, as it is very cheap."
                 });
                 break;
             case 'infoT1Spear':
                 bot.sendMessage({
                     to: channelID,
-                    message: "T1 Spear \n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png \n DMG: 40-60 \n SPD: 1 \n This spear is badly balanced and is used by only the militia."
+                    message: "T1 Spear\n https://static.drips.pw/rotmg/wiki/Weapons/Staves/T1%20Firebrand%20Staff.png \n DMG: 40-60 \n SPD: 1 \n This spear is badly balanced and is used by only the militia."
                 });
                 break;
             case 'infoT1Sword':
                 bot.sendMessage({
                     to: channelID,
-                    message: "T1 Sword \n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png \n DMG: 20-40 \n SPD: 2 \n Swords like this are mass produced for the armies of Oryx."
+                    message: "T1 Sword\n https://static.drips.pw/rotmg/wiki/Weapons/Swords/T6%20Glass%20Sword.png \n DMG: 20-40 \n SPD: 2 \n Swords like this are mass produced for the armies of Oryx."
                 });
                 break;
             case 'infoT1Bow':
                 bot.sendMessage({
                     to: channelID,
-                    message: "T1 Bow \n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png \n DMG: 45 \n SPD: 1 \n Bows were orriginally invented by the Elves but like all inventions were copied and then worse versions like this were created in its place."
+                    message: "T1 Bow\n https://static.drips.pw/rotmg/wiki/Weapons/Bows/T4%20Ironwood%20Bow.png \n DMG: 45 \n SPD: 1 \n Bows were orriginally invented by the Elves but like all inventions were copied and then worse versions like this were created in its place."
                 });
                 break;
             case 'infoT1HeavyArmour':
             bot.sendMessage({
                 to: channelID,
-                message: "T1 Heavy Armour \n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png \n HP: 50 \n SPD: 0 \n Armour like this was mass produced and issued to militia everywhere."
+                message: "T1 Heavy Armour\n https://static.drips.pw/rotmg/wiki/Armor/Heavy%20Armor/T3%20Silver%20Chainmail.png \n HP: 50 \n SPD: 0 \n Armour like this was mass produced and issued to militia everywhere."
               });
               break;
             case 'scavenge':
@@ -277,13 +429,33 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
             break;
             case 'duel':
-                duel(user,args,channelID)
+                duel(attacker,defender,channelID)
             break;
             case 'attack':
-                if (user == attacker){
-                  //modify the defender
+                if (turn == user && user == attacker){
+                  attack(user,defender,channelID)
+                } else if (turn == user && user == defender){
+                  attack(user, attacker, channelID)
+                } else {
+                  bot.sendMessage({
+                      to: channelID,
+                      message: "NOT YOUR TURN"
+                  });
                 }
             break;
+            case 'magic':
+                if (turn == user && user == attacker){
+                  magic(user,defender,channelID)
+                } else if (turn == user && user == defender){
+                  magic(user, attacker, channelID)
+                } else {
+                  bot.sendMessage({
+                      to: channelID,
+                      message: "NOT YOUR TURN"
+                  });
+                }
+            break;
+
             // Just add any case commands if you want to..
          }
      }
