@@ -1,1 +1,1 @@
-{"TheLastHero":{"Stats":{"HP":20,"MP":10},"Weapons":"None"}},"katieyang":{"Stats":{"HP":20,"MP":10},"Weapons":"None"}}
+{"TheLastHero":{"Stats":{"HP":20,"MP":10},"Weapons":"None","Armour":"None","MagicAbilities":"None"}}
